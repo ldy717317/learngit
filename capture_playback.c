@@ -82,7 +82,7 @@ int i =0;
 int main (int argc, char *argv[])
 {
 	int err;
-	char buf[100];
+	short buf[100];
 	snd_pcm_t *playback_handle;
 	snd_pcm_t *capture_handle;
 
@@ -113,26 +113,35 @@ int main (int argc, char *argv[])
 		fprintf (stderr, "cannot prepare audio interface for use (%s)\n",
 			 snd_strerror (err));
 		return -1;
-	   }
-                  
-	           while (1)
-	            {
-	            	     double  j =0.0;
-	            	        j = 2*PI/400;
+	  }
+	                       double  j =0.0;
+	            	        j = 2.0*PI/440;
+	            	        printf("j = %f ",j);
+	            	        short buf1[100];
 				for(i=0;i<100;i++)
 		                 {
-		                    buf[i] =20+20*(char)sin(j*i);
+		                  //  buf1[i] =(20.0+20.0*sin(j*i))*65536.0/40.0;
+		                          printf("%f  ",(sin(j*i)));
+					//printf("%d ",buf1[i]);
 		                 }
-				     
+                  
+	        /*   while (1)
+	            {
+	            	        for(i=0;i<100;i++)
+		                 {
+		                    buf[i] =buf1[i];
+					printf("%d ",buf[i]);
+		                 }
+				     printf("\n");
                                  err = snd_pcm_writei (playback_handle, buf, 100);
                                  printf("err = %d\n",err);
 		                 if (err  != 100)
 		                 {
 			              
-			              return -1;
+				              return -1;
 			        }
 		       
-	           }
+	           }*/
 
 	snd_pcm_close (playback_handle);
 	//snd_pcm_close (capture_handle);

@@ -118,10 +118,11 @@ int main (int argc, char *argv[])
 	                        double  j =0.0;
 	            	        j = 2.0*PI/440.0;
 	            	        signed short  buf1[100];
-	            	        for(i=0;i<100;i++)
+	            	        float   k;
+	            	        for(i=0,4=0.0;i<100,k<440.0;i++,k=k+4.4)
 		                 {           
-		                          buf1[i] =(signed short)((sin(4.4*j*i))*32768.0);
-		                          printf("%f %f %d\n",sin(j*i),((sin(4.4*j*i))*32768.0),buf1[i]);
+		                          buf1[i] =(signed short)((sin(j*k))*32768.0);
+		                          printf("%f %f %d\n",sin(j*i),((sin(j*k))*32768.0),buf1[i]);
 	
 		                 }
                   
@@ -140,7 +141,7 @@ int main (int argc, char *argv[])
 				    return -1;
 			         }
 		       
-	          	     }
+	       		     }
 
 				snd_pcm_close (playback_handle);
 				//snd_pcm_close (capture_handle);

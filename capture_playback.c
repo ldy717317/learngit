@@ -10,7 +10,7 @@ snd_pcm_t *open_sound_dev(snd_pcm_stream_t type)
 	int err;
 	snd_pcm_t *handle;
 	snd_pcm_hw_params_t *hw_params;
-	unsigned int rate = 44100;
+	unsigned int rate = 44000;
 
 	if ((err = snd_pcm_open (&handle, "default", type, 0)) < 0) {
 		return NULL;
@@ -60,7 +60,7 @@ snd_pcm_t *open_sound_dev(snd_pcm_stream_t type)
 
 	snd_pcm_hw_params_free (hw_params);
 
-	return handle;
+	return handle;  
 }
 
 void close_sound_dev(snd_pcm_t *handle)
@@ -78,11 +78,11 @@ snd_pcm_t *open_capture(void)
     return open_sound_dev(SND_PCM_STREAM_CAPTURE);
 }
 
-int i =0;
+             int i =0;
 int main (int argc, char *argv[])
 {
 	int err;
-	short buf[100];
+	signed short buf[100];
 	snd_pcm_t *playback_handle;
 	snd_pcm_t *capture_handle;
 
@@ -114,37 +114,36 @@ int main (int argc, char *argv[])
 			 snd_strerror (err));
 		return -1;
 	  }
-	                       double  j =0.0;
-	            	        j = 2.0*PI/440;
-	            	        printf("j = %f ",j);
-	            	        short buf1[100];
-				for(i=0;i<100;i++)
-		                 {
-		                  //  buf1[i] =(20.0+20.0*sin(j*i))*65536.0/40.0;
-		                          printf("%f  ",(sin(j*i)));
-					//printf("%d ",buf1[i]);
+	                      
+	                        double  j =0.0;
+	            	        j = 2.0*PI/440.0;
+	            	        signed short  buf1[100];
+	            	        for(i=0;i<100;i++)
+		                 {           
+		                          buf1[i] =(signed short)((sin(4.4*j*i))*32768.0);
+		                          printf("%f %f %d\n",sin(j*i),((sin(4.4*j*i))*32768.0),buf1[i]);
+	
 		                 }
                   
-	        /*   while (1)
-	            {
+	                       while (1)
+	                      {
 	            	        for(i=0;i<100;i++)
 		                 {
-		                    buf[i] =buf1[i];
-					printf("%d ",buf[i]);
+		                   buf[i] =buf1[i];                 
+				   //buf[i] = 0xff;
 		                 }
-				     printf("\n");
-                                 err = snd_pcm_writei (playback_handle, buf, 100);
+                                 err = snd_pcm_writei(playback_handle, buf, 100);
                                  printf("err = %d\n",err);
-		                 if (err  != 100)
+		                 if (err  != 100)         
 		                 {
 			              
-				              return -1;
-			        }
+				    return -1;
+			         }
 		       
-	           }*/
+	          	     }
 
-	snd_pcm_close (playback_handle);
-	//snd_pcm_close (capture_handle);
-    return 0;
+				snd_pcm_close (playback_handle);
+				//snd_pcm_close (capture_handle);
+   				 return 0;
 }
 
